@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">News Now</string>
+    <string name="title">Title</string>
+    <string name="data">Data</string>
+    <string name="description">Description</string>
+    <string name="url">Url</string>
+    <string name="DATA_FORMAT">dd-MM-yyyy</string>
+</resources>
