@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.HashMap
 
-open class EndPointService {
+open class ServiceConfiguration {
 
     private var retrofit: Retrofit? = null
     private var httpClient: OkHttpClient? = null

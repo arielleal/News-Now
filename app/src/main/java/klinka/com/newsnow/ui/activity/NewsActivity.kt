@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import klinka.com.newsnow.CHAVE
@@ -17,7 +18,6 @@ import klinka.com.newsnow.model.enums.Country
 import klinka.com.newsnow.ui.adapter.NewsAdapter
 import klinka.com.newsnow.ui.viewmodel.NewsViewModel
 import kotlinx.android.synthetic.main.activity_news.*
-import okhttp3.internal.filterList
 
 
 class NewsActivity: AppCompatActivity(), NewsAdapter.NewsAdapterListening {
@@ -27,7 +27,7 @@ class NewsActivity: AppCompatActivity(), NewsAdapter.NewsAdapterListening {
     private lateinit var newsAdapter: NewsAdapter
     private var itemSelectedCategory: String? = null
     private var itemSelectedCountry: String? = null
-    private val newsViewModel: NewsViewModel = NewsViewModel(this)
+    private val newsViewModel: NewsViewModel = NewsViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,13 @@ class NewsActivity: AppCompatActivity(), NewsAdapter.NewsAdapterListening {
         configureAdapter()
         configureSpiner()
 
+        newsViewModel.sources.observe(this, Observer {
+            update(newsViewModel.sources.value!!)
+        })
 
+        newsViewModel.errorMessage.observe(this, Observer {
+            showErrorToastNews(newsViewModel.errorMessage.value!!)
+        })
     }
 
     fun update(source: List<Source>) {
@@ -45,10 +51,10 @@ class NewsActivity: AppCompatActivity(), NewsAdapter.NewsAdapterListening {
     }
 
     private fun configureSpiner(){
-        val listCategory: MutableList<Category> = Category.values().toMutableList()
-        val listCountry: MutableList<Country> = Country.values().toMutableList()
+        val listCategory= Category.values().toMutableList()
+        val listCountry = Country.values().toMutableList()
 
-        val adapterCategory = ArrayAdapter(this, android.R.layout.simple_spinner_item, listCategory)
+        val adapterCategory = ArrayAdapter(this, android.R.layout.simple_spinner_item,listCategory)
         adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spiner_category_id.adapter = adapterCategory
 
@@ -111,7 +117,7 @@ class NewsActivity: AppCompatActivity(), NewsAdapter.NewsAdapterListening {
         startActivity(intent)
     }
 
-    fun showErrorToastNews(){
-        Toast.makeText(this,"This content cloud not be loaded", Toast.LENGTH_LONG).show()
+    fun showErrorToastNews(text: String){
+        Toast.makeText(this,text, Toast.LENGTH_LONG).show()
     }
 }

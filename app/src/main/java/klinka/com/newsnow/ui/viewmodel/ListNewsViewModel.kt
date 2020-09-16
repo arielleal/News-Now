@@ -2,7 +2,7 @@ package klinka.com.newsnow.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import klinka.com.newsnow.model.ArticleResponse
-import klinka.com.newsnow.service.EndPointService
+import klinka.com.newsnow.service.ServiceConfiguration
 import klinka.com.newsnow.service.NewsService
 import klinka.com.newsnow.ui.activity.ListNewsActivity
 import retrofit2.Call
@@ -11,7 +11,7 @@ import retrofit2.Response
 
 class ListNewsViewModel(private val listActivity: ListNewsActivity): ViewModel() {
 
-    private val retrofitClient = EndPointService().getRetrofit()
+    private val retrofitClient = ServiceConfiguration().getRetrofit()
 
     fun loadEverything(domain: String, pageSize: Int ) {
         val endpoint = retrofitClient.create(NewsService::class.java)
