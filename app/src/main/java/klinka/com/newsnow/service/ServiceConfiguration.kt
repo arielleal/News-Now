@@ -49,7 +49,6 @@ open class ServiceConfiguration {
         return builder
     }
 
-    //add the API_KEY header
     private fun addHeaders(chain: Interceptor.Chain): Response {
         var request = chain.request()
         request = request.newBuilder().addHeader(API_KEY_HEADER_NAME, API_KEY).build()

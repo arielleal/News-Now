@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -23,7 +24,7 @@ class ListNewsActivity() : AppCompatActivity(), ListNewsAdapter.ListNewsAdapterL
     private lateinit var listAdapter: ListNewsAdapter
     private lateinit var listArticles: List<Article>
     private lateinit var url: String
-    private var listViewModel: ListNewsViewModel = ListNewsViewModel(this)
+    private var listViewModel: ListNewsViewModel = ListNewsViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,14 @@ class ListNewsActivity() : AppCompatActivity(), ListNewsAdapter.ListNewsAdapterL
             .into(list_news_image_imageView)
 
         preparingDataToLoadEverything(url)
+
+        listViewModel.category.observe(this, Observer {
+            fillArticles(listViewModel.category.value!!)
+        })
+
+        listViewModel.errorMenssage.observe(this, Observer {
+            showErrorToastListNews(listViewModel.errorMenssage.value!!)
+        })
     }
 
     private fun preparingDataToLoadEverything(url: String) {
@@ -69,7 +78,7 @@ class ListNewsActivity() : AppCompatActivity(), ListNewsAdapter.ListNewsAdapterL
         startActivity(intent)
     }
 
-    fun showErrorToastListNews(){
-        Toast.makeText(this,"This content cloud not be loaded", Toast.LENGTH_LONG).show()
+    fun showErrorToastListNews(text: String){
+        Toast.makeText(this,text, Toast.LENGTH_LONG).show()
     }
 }

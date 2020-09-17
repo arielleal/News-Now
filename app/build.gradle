@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -51,5 +53,11 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.28.2'
     androidTestImplementation 'org.mockito:mockito-android:2.28.2'
     testImplementation 'org.mockito:mockito-inline:2.28.2'
-
+    implementation 'androidx.arch.core:core-common:2.1.0'
+    testImplementation("android.arch.core:core-testing: 2.1.0", {
+        exclude group: 'com.android.support', module: 'support-compat'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
+    })
 }
+
